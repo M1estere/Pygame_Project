@@ -48,7 +48,7 @@ class Level:
 							Tile((x, y), [self.visible_sprites, self.obstacle_sprites], 'object', surf)
 
 
-		self.player = Player((2000, 1430), [self.visible_sprites], self.obstacle_sprites)
+		self.player = Player((2000, 1350), [self.visible_sprites], self.obstacle_sprites)
 
 	def run(self):
 		self.visible_sprites.custom_drawing(self.player)
