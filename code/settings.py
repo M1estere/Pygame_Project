@@ -1,3 +1,5 @@
+GAME_TITLE = 'Super Walking Game'
+
 WIDTH = 1280
 HEIGTH = 720
 
