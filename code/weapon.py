@@ -1,0 +1,15 @@
+import pygame
+
+class Weapon(pygame.sprite.Sprite):
+    def __init__(self, player, groups):
+        super().__init__(groups)
+        
+        direction = player.status.split('_')[0]
+
+        full_path = f'../graphics/weapons/{player.weapon}/{direction}.png'
+        self.image = pygame.image.load(full_path).convert_alpha()
+
+        if direction == 'right': self.rect = self.image.get_rect(center = player.rect.midright + pygame.math.Vector2(0, 16))
+        elif direction == 'left': self.rect = self.image.get_rect(center = player.rect.midleft + pygame.math.Vector2(0, 16))
+        elif direction == 'down': self.rect = self.image.get_rect(center = player.rect.midbottom + pygame.math.Vector2(-10, 14))
+        else: self.rect = self.image.get_rect(center = player.rect.midtop + pygame.math.Vector2(-10, 0))

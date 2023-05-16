@@ -3,6 +3,7 @@ from settings import *
 
 from tile import Tile
 from player import Player
+from weapon import Weapon
 
 from random import choice
 
@@ -16,6 +17,8 @@ class Level:
 
 		self.visible_sprites = YSortingCameraGroup()
 		self.obstacle_sprites = pygame.sprite.Group()
+
+		self.current_attack = None
 
 		self.create_map()
 
@@ -48,7 +51,16 @@ class Level:
 							Tile((x, y), [self.visible_sprites, self.obstacle_sprites], 'object', surf)
 
 
-		self.player = Player((2000, 1350), [self.visible_sprites], self.obstacle_sprites)
+		self.player = Player((2000, 1350), [self.visible_sprites], self.obstacle_sprites, self.create_attack, self.destroy_attack)
+
+	def create_attack(self):
+		self.current_attack = Weapon(self.player, [self.visible_sprites])
+
+	def destroy_attack(self):
+		if self.current_attack:
+			self.current_attack.kill()
+
+		self.current_attack = None
 
 	def run(self):
 		self.visible_sprites.custom_drawing(self.player)
