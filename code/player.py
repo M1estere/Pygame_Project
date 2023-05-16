@@ -11,7 +11,7 @@ class Player(Creature):
 		self.image = pygame.image.load('../graphics/test/player.png').convert_alpha()
 		self.rect = self.image.get_rect(topleft = pos)
 
-		self.hitbox = self.rect.inflate(-14, -26)
+		self.hitbox = self.rect.inflate(HITBOX_OFFSET['player_x'], HITBOX_OFFSET['player_y'])
 
 		self.import_player_assets()
 		self.status = 'down'
@@ -44,11 +44,17 @@ class Player(Creature):
 		self.magic_switch_cooldown = 200
 
 		self.stats = {'health': 100, 'energy': 60, 'attack': 10, 'magic': 4, 'speed': 5}
+		self.max_stats = {'health': 250, 'energy': 140, 'attack': 25, 'magic': 10, 'speed': 10}
+		self.upgrades_cost = {'health': 100, 'energy': 100, 'attack': 100, 'magic': 100, 'speed': 100}
+
 		self.health = self.stats['health']
 		self.energy = self.stats['energy']
-		self.exp = 100
+		self.exp = 200
 
 		self.speed = self.stats['speed']
+
+		self.weapon_attack_sound = pygame.mixer.Sound('../audio/sword.wav')
+		self.weapon_attack_sound.set_volume(0.3)
 
 	def import_player_assets(self):
 		character_path = '../graphics/player/'
@@ -88,6 +94,7 @@ class Player(Creature):
 				self.attacking = True
 				self.attack_time = pygame.time.get_ticks()
 				self.create_attack()
+				self.weapon_attack_sound.play()
 
 			# magic
 			if keys[pygame.K_LCTRL]:
@@ -171,6 +178,12 @@ class Player(Creature):
 		spell_damage = magic_data[self.magic]['strength']
 
 		return base_damage + spell_damage
+
+	def get_value_by_index(self, index):
+		return list(self.stats.values())[index]
+
+	def get_cost_by_index(self, index):
+		return list(self.upgrades_cost.values())[index]
 
 	def animate(self):
 		animation = self.animations[self.status]

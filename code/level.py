@@ -7,9 +7,11 @@ from enemy import Enemy
 
 from weapon import Weapon
 
-from ui import UI
 from particles import AnimationPlayer
 from magic import MagicPlayer
+
+from ui import UI
+from upgrade import Upgrade
 
 from random import choice, randint
 
@@ -18,6 +20,8 @@ from debug import debug
 
 class Level:
 	def __init__(self):
+
+		self.game_paused = False
 
 		self.display_surface = pygame.display.get_surface()
 
@@ -32,6 +36,7 @@ class Level:
 		self.create_map()
 
 		self.ui = UI()
+		self.upgrade = Upgrade(self.player)
 
 		self.animation_player = AnimationPlayer()
 		self.magic_player = MagicPlayer(self.animation_player)
@@ -57,7 +62,7 @@ class Level:
 						y = row_index * TILE_SIZE
 
 						if style == 'boundary':
-							Tile((x, y), [self.obstacle_sprites], 'invinsible')
+							Tile((x, y), [self.obstacle_sprites], 'invisible')
 						if style == 'grass':
 							random_grass_image = choice(graphics['grass'])
 							Tile((x, y), [self.visible_sprites, self.obstacle_sprites, self.attackable_sprites], 'grass', random_grass_image)
@@ -73,7 +78,8 @@ class Level:
 								elif col == '392': name = 'raccoon'
 								else: name = 'squid'
 
-								Enemy(name, (x, y), [self.visible_sprites, self.attackable_sprites], self.obstacle_sprites, self.damage_player, self.trigger_death_particles)
+								Enemy(name, (x, y), [self.visible_sprites, self.attackable_sprites], 
+									self.obstacle_sprites, self.damage_player, self.trigger_death_particles, self.add_experience_points)
 
 	def create_attack(self):
 		self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites])
@@ -110,6 +116,9 @@ class Level:
 	def trigger_death_particles(self, pos, particles_type):
 		self.animation_player.create_particles(particles_type, pos, [self.visible_sprites])
 
+	def add_experience_points(self, amount):
+		self.player.exp += amount
+
 	def damage_player(self, damage_value, attack_type):
 		if self.player.can_take_damage:
 			self.player.health -= damage_value
@@ -119,15 +128,19 @@ class Level:
 
 			self.animation_player.create_particles(attack_type, self.player.rect.center, [self.visible_sprites])
 
+	def toggle_menu(self):
+		self.game_paused = not self.game_paused
+
 	def run(self):
 		self.visible_sprites.custom_drawing(self.player)
-		self.visible_sprites.update()
-
-		self.visible_sprites.enemy_update(self.player)
-
-		self.attack_logic()
-
 		self.ui.display(self.player)
+
+		if self.game_paused:
+			self.upgrade.display()
+		else:
+			self.visible_sprites.update()
+			self.visible_sprites.enemy_update(self.player)
+			self.attack_logic()
 
 class YSortingCameraGroup(pygame.sprite.Group):
 	def __init__(self):
