@@ -36,6 +36,10 @@ class Enemy(Creature):
         
         self.attack_type = monster_info['attack_type']
 
+        self.can_attack = True
+        self.attack_time = None
+        self.attack_cooldown = 500
+
     def import_graphics(self, name):
         self.animations = {'idle': [], 'move': [], 'attack': []}
 
@@ -60,16 +64,32 @@ class Enemy(Creature):
     def get_status(self, player):
         distance = self.get_distance_direction_player(player)[0]
 
-        if distance <= self.attack_radius:
+        if distance <= self.attack_radius and self.can_attack:
+            if self.status != 'attack':
+                self.frame_index = 0
+
             self.status = 'attack'
         elif distance <= self.notice_radius:
             self.status = 'move'
         else:
             self.status = 'idle'
 
+    def animate(self):
+        animation = self.animations[self.status]
+
+        self.frame_index += self.animation_speed
+        if self.frame_index >= len(self.animations[self.status]):
+            if self.status == 'attack':
+                self.can_attack = False
+
+            self.frame_index = 0
+
+        self.image = animation[int(self.frame_index)]
+        self.rect = self.image.get_rect(center = self.hitbox.center)
+
     def actions(self, player):
         if self.status == 'attack':
-            print('enemy attack')
+            self.attack_time = pygame.time.get_ticks()
         elif self.status == 'move':
             self.direction = self.get_distance_direction_player(player)[1]
         else:
@@ -79,5 +99,14 @@ class Enemy(Creature):
         self.get_status(player)
         self.actions(player)
 
+    def cooldown(self):
+        if not self.can_attack:
+            current_time = pygame.time.get_ticks()
+
+            if current_time - self.attack_time >= self.attack_cooldown:
+                self.can_attack = True
+
     def update(self):
         self.movement(self.speed)
+        self.animate()
+        self.cooldown()
