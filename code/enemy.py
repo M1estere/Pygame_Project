@@ -6,7 +6,7 @@ from creature import Creature
 from support import import_folder
 
 class Enemy(Creature):
-    def __init__(self, enemy_name, pos, groups, obstacles, damage_player):
+    def __init__(self, enemy_name, pos, groups, obstacles, damage_player, trigger_death_particles):
         super().__init__(groups)
 
         self.sprite_type = 'enemy'
@@ -21,6 +21,7 @@ class Enemy(Creature):
 
         self.obstacles = obstacles
         self.damage_player = damage_player
+        self.trigger_death_particles = trigger_death_particles
 
         self.monster_name = enemy_name
         monster_info = monster_data[self.monster_name]
@@ -138,6 +139,7 @@ class Enemy(Creature):
 
     def check_death(self):
         if self.health <= 0:
+            self.trigger_death_particles(self.rect.center, self.monster_name)
             self.kill()
 
     def update(self):

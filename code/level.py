@@ -3,11 +3,14 @@ from settings import *
 
 from tile import Tile
 from player import Player
-from weapon import Weapon
-from ui import UI
 from enemy import Enemy
 
-from random import choice
+from weapon import Weapon
+
+from ui import UI
+from particles import AnimationPlayer
+
+from random import choice, randint
 
 from support import *
 from debug import debug
@@ -28,6 +31,8 @@ class Level:
 		self.create_map()
 
 		self.ui = UI()
+
+		self.animation_player = AnimationPlayer()
 
 	def create_map(self):
 		layouts = {
@@ -66,7 +71,7 @@ class Level:
 								elif col == '392': name = 'raccoon'
 								else: name = 'squid'
 
-								Enemy(name, (x, y), [self.visible_sprites, self.attackable_sprites], self.obstacle_sprites, self.damage_player)
+								Enemy(name, (x, y), [self.visible_sprites, self.attackable_sprites], self.obstacle_sprites, self.damage_player, self.trigger_death_particles)
 
 	def create_attack(self):
 		self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites])
@@ -89,9 +94,17 @@ class Level:
 				if collision_sprites:
 					for target_sprite in collision_sprites:
 						if target_sprite.sprite_type == 'grass':
+							pos = target_sprite.rect.center
+							offset = pygame.math.Vector2(0, 45)
+
+							for leaf in range(randint(6, 9)):
+								self.animation_player.create_grass_particles(pos - offset, [self.visible_sprites])
 							target_sprite.kill()
 						else:
 							target_sprite.get_damage(self.player, attack_sprite.sprite_type)
+
+	def trigger_death_particles(self, pos, particles_type):
+		self.animation_player.create_particles(particles_type, pos, [self.visible_sprites])
 
 	def damage_player(self, damage_value, attack_type):
 		if self.player.can_take_damage:
@@ -99,6 +112,8 @@ class Level:
 			self.player.can_take_damage = False
 
 			self.player.hurt_time = pygame.time.get_ticks()
+
+			self.animation_player.create_particles(attack_type, self.player.rect.center, [self.visible_sprites])
 
 	def run(self):
 		self.visible_sprites.custom_drawing(self.player)
