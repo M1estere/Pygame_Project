@@ -11,15 +11,10 @@ class Player(Creature):
 		self.image = pygame.image.load('../graphics/test/player.png').convert_alpha()
 		self.rect = self.image.get_rect(topleft = pos)
 
-		self.hitbox = self.rect.inflate(0, -26)
+		self.hitbox = self.rect.inflate(-14, -26)
 
 		self.import_player_assets()
 		self.status = 'down'
-
-		self.frame_index = 0
-		self.animation_speed = 0.15
-
-		self.direction = pygame.math.Vector2()
 
 		self.obstacles = obstacles
 
