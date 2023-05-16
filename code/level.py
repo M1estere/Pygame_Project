@@ -4,6 +4,7 @@ from settings import *
 from tile import Tile
 from player import Player
 from weapon import Weapon
+from ui import UI
 
 from random import choice
 
@@ -21,6 +22,8 @@ class Level:
 		self.current_attack = None
 
 		self.create_map()
+
+		self.ui = UI()
 
 	def create_map(self):
 		layouts = {
@@ -66,7 +69,7 @@ class Level:
 		self.visible_sprites.custom_drawing(self.player)
 		self.visible_sprites.update()
 
-		debug(self.player.status)
+		self.ui.display(self.player)
 
 class YSortingCameraGroup(pygame.sprite.Group):
 	def __init__(self):
