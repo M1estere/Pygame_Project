@@ -6,7 +6,7 @@ from creature import Creature
 from support import import_folder
 
 class Enemy(Creature):
-    def __init__(self, enemy_name, pos, groups, obstacles):
+    def __init__(self, enemy_name, pos, groups, obstacles, damage_player):
         super().__init__(groups)
 
         self.sprite_type = 'enemy'
@@ -20,6 +20,7 @@ class Enemy(Creature):
         self.hitbox = self.rect.inflate(0, -10)
 
         self.obstacles = obstacles
+        self.damage_player = damage_player
 
         self.monster_name = enemy_name
         monster_info = monster_data[self.monster_name]
@@ -91,9 +92,16 @@ class Enemy(Creature):
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
 
+        if not self.can_take_damage:
+            alpha = self.wave_value()
+            self.image.set_alpha(alpha)
+        else:
+            self.image.set_alpha(255)
+
     def actions(self, player):
         if self.status == 'attack':
             self.attack_time = pygame.time.get_ticks()
+            self.damage_player(self.attack_damage, self.attack_type)
         elif self.status == 'move':
             self.direction = self.get_distance_direction_player(player)[1]
         else:

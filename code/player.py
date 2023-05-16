@@ -18,6 +18,10 @@ class Player(Creature):
 
 		self.obstacles = obstacles
 
+		self.can_take_damage = True
+		self.hurt_time = None
+		self.cannot_take_damage_duration = 500
+
 		self.attacking = False
 		self.attack_cooldown = 400
 		self.attack_time = None
@@ -152,6 +156,10 @@ class Player(Creature):
 			if current_time - self.magic_switch_time >= self.magic_switch_cooldown:
 				self.can_switch_magic = True
 
+		if not self.can_take_damage:
+			if current_time - self.hurt_time >= self.cannot_take_damage_duration:
+				self.can_take_damage = True
+
 	def get_weapon_damage(self):
 		base_damage = self.stats['attack']
 		weapon_damage = weapon_data[self.weapon]['damage']
@@ -167,6 +175,12 @@ class Player(Creature):
 
 		self.image = animation[int(self.frame_index)]
 		self.rect = self.image.get_rect(center = self.hitbox.center)
+
+		if not self.can_take_damage:
+			alpha = self.wave_value()
+			self.image.set_alpha(alpha)
+		else:
+			self.image.set_alpha(255)
 
 	def update(self):
 		self.input()
