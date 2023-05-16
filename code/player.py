@@ -140,7 +140,7 @@ class Player(Creature):
 		current_time = pygame.time.get_ticks()
 
 		if self.attacking:
-			if current_time - self.attack_time >= self.attack_cooldown:
+			if current_time - self.attack_time >= self.attack_cooldown + weapon_data[self.weapon]['cooldown']:
 				self.attacking = False
 				self.destroy_attack()
 
@@ -151,6 +151,12 @@ class Player(Creature):
 		if not self.can_switch_magic:
 			if current_time - self.magic_switch_time >= self.magic_switch_cooldown:
 				self.can_switch_magic = True
+
+	def get_weapon_damage(self):
+		base_damage = self.stats['attack']
+		weapon_damage = weapon_data[self.weapon]['damage']
+
+		return base_damage + weapon_damage
 
 	def animate(self):
 		animation = self.animations[self.status]

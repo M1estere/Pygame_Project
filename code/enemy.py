@@ -40,6 +40,10 @@ class Enemy(Creature):
         self.attack_time = None
         self.attack_cooldown = 500
 
+        self.can_take_damage = True
+        self.hit_time = None
+        self.cannot_take_damage_duration = 350
+
     def import_graphics(self, name):
         self.animations = {'idle': [], 'move': [], 'attack': []}
 
@@ -100,13 +104,38 @@ class Enemy(Creature):
         self.actions(player)
 
     def cooldown(self):
-        if not self.can_attack:
-            current_time = pygame.time.get_ticks()
-
+        current_time = pygame.time.get_ticks()
+        if not self.can_attack:   
             if current_time - self.attack_time >= self.attack_cooldown:
                 self.can_attack = True
 
+        if not self.can_take_damage:
+            if current_time - self.hit_time >= self.cannot_take_damage_duration:
+                self.can_take_damage = True
+
+    def get_damage(self, player, attack_type):
+        if self.can_take_damage:
+            self.direction = self.get_distance_direction_player(player)[1]
+            if attack_type == 'weapon':
+                self.health -= player.get_weapon_damage()
+            else:
+                pass
+
+            self.hit_time = pygame.time.get_ticks()
+            self.can_take_damage = False
+
+    def hit_impact(self):
+        if not self.can_take_damage:
+            self.direction *= -self.resistance
+
+    def check_death(self):
+        if self.health <= 0:
+            self.kill()
+
     def update(self):
+        self.hit_impact()
+        self.check_death()
+
         self.movement(self.speed)
         self.animate()
         self.cooldown()

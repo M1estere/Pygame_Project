@@ -22,6 +22,9 @@ class Level:
 
 		self.current_attack = None
 
+		self.attack_sprites = pygame.sprite.Group()
+		self.attackable_sprites = pygame.sprite.Group()
+
 		self.create_map()
 
 		self.ui = UI()
@@ -50,7 +53,7 @@ class Level:
 							Tile((x, y), [self.obstacle_sprites], 'invinsible')
 						if style == 'grass':
 							random_grass_image = choice(graphics['grass'])
-							Tile((x, y), [self.visible_sprites, self.obstacle_sprites], 'grass', random_grass_image)
+							Tile((x, y), [self.visible_sprites, self.obstacle_sprites, self.attackable_sprites], 'grass', random_grass_image)
 						if style == 'object':
 							surf = graphics['objects'][int(col)]
 							Tile((x, y), [self.visible_sprites, self.obstacle_sprites], 'object', surf)
@@ -63,13 +66,10 @@ class Level:
 								elif col == '392': name = 'raccoon'
 								else: name = 'squid'
 
-								Enemy(name, (x, y), [self.visible_sprites], self.obstacle_sprites)
-
-
-		
+								Enemy(name, (x, y), [self.visible_sprites, self.attackable_sprites], self.obstacle_sprites)
 
 	def create_attack(self):
-		self.current_attack = Weapon(self.player, [self.visible_sprites])
+		self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites])
 
 	def destroy_attack(self):
 		if self.current_attack:
@@ -82,11 +82,24 @@ class Level:
 		print(strength)
 		print(cost)
 
+	def attack_logic(self):
+		if self.attack_sprites:
+			for attack_sprite in self.attack_sprites:
+				collision_sprites = pygame.sprite.spritecollide(attack_sprite, self.attackable_sprites, False)
+				if collision_sprites:
+					for target_sprite in collision_sprites:
+						if target_sprite.sprite_type == 'grass':
+							target_sprite.kill()
+						else:
+							target_sprite.get_damage(self.player, attack_sprite.sprite_type)
+
 	def run(self):
 		self.visible_sprites.custom_drawing(self.player)
 		self.visible_sprites.update()
 
 		self.visible_sprites.enemy_update(self.player)
+
+		self.attack_logic()
 
 		self.ui.display(self.player)
 
