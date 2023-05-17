@@ -3,7 +3,6 @@ from settings import *
 
 class Upgrade:
 	def __init__(self, player):
-
 		self.display_surface = pygame.display.get_surface()
 		self.player = player
 

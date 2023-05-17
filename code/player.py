@@ -207,6 +207,10 @@ class Player(Creature):
 		else:
 			self.energy = self.stats['energy']
 
+	def check_health(self):
+		if self.health <= 0:
+			pass
+
 	def update(self):
 		self.input()
 		self.cooldown()
