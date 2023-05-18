@@ -36,7 +36,7 @@ class UI:
         pygame.draw.rect(self.display_surface, UI_BORDER_COLOUR, bg_rect, 3)
 
     def show_exp(self, exp):
-        text_surf = self.font.render('Score: ' + str(int(exp)), False, TEXT_COLOUR)
+        text_surf = self.font.render('EXP: ' + str(int(exp)), False, TEXT_COLOUR)
 
         x = self.display_surface.get_size()[0] - 20
         y = self.display_surface.get_size()[1] - 20

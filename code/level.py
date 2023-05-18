@@ -128,15 +128,16 @@ class Level:
 
 			self.animation_player.create_particles(attack_type, self.player.rect.center, [self.visible_sprites])
 
-	def toggle_menu(self):
+	def toggle_menu(self, game):
 		self.game_paused = not self.game_paused
+		self.game = game
 
 	def run(self):
 		self.visible_sprites.custom_drawing(self.player)
 		self.ui.display(self.player)
 
 		if self.game_paused:
-			self.upgrade.display()
+			self.upgrade.display(self.game)
 		else:
 			self.visible_sprites.update()
 			self.visible_sprites.enemy_update(self.player)

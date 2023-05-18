@@ -44,6 +44,8 @@ class Game:
         self.display.fill(WATER_COLOUR)
 
     def open_main_menu(self):
+        self.reset_keys()
+
         self.playing = False
         self.main_menu = MainMenu(self)
         self.curr_menu = self.main_menu
@@ -57,7 +59,7 @@ class Game:
             if self.playing:
                 if event.type == pygame.KEYDOWN:
                      if event.key == pygame.K_m:
-                         self.level.toggle_menu()
+                        self.toggle()
 
             if not self.playing:
                 if event.type == pygame.KEYDOWN:
@@ -68,6 +70,9 @@ class Game:
                         self.DOWN_KEY = True
                     if event.key == pygame.K_UP or event.key == pygame.K_w:
                         self.UP_KEY = True
+
+    def toggle(self):
+        self.level.toggle_menu(self)
 
     def reset_keys(self):
         self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY = False, False, False, False
