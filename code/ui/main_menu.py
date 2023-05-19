@@ -1,6 +1,6 @@
 from misc.settings import *
 
-from menu import Menu
+from ui.menu import Menu
 
 class MainMenu(Menu):
     def __init__(self, game):

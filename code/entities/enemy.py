@@ -3,7 +3,7 @@ import pygame
 from misc.settings import *
 from misc.support import import_folder
 
-from creature import Creature
+from entities.creature import Creature
 
 class Enemy(Creature):
     def __init__(self, enemy_name, pos, groups, obstacles, damage_player, trigger_death_particles, add_experience_points):

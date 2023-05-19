@@ -12,7 +12,7 @@ from low_classes.particles import AnimationPlayer
 from low_classes.weapon import Weapon
 from low_classes.magic import MagicPlayer
 
-from ui import UI
+from ui.ui import UI
 from ui.upgrade import Upgrade
 
 from random import choice, randint

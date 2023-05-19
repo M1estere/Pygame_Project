@@ -3,7 +3,7 @@ import pygame
 from misc.settings import *
 from misc.support import import_folder
 
-from creature import Creature
+from entities.creature import Creature
 
 class Player(Creature):
 	def __init__(self, pos, groups, obstacles, create_attack, destroy_attack, create_magic):
