@@ -1,5 +1,7 @@
 GAME_TITLE = 'Super Walking Game'
 
+PLAYER_SCALE = 64
+
 WIDTH = 1280
 HEIGTH = 720
 

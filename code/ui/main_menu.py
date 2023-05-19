@@ -1,5 +1,4 @@
-import pygame
-from settings import *
+from misc.settings import *
 
 from menu import Menu
 

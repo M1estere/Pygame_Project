@@ -1,14 +1,15 @@
 import pygame
-from settings import *
+
+from misc.settings import *
+from misc.support import import_folder
 
 from creature import Creature
-
-from support import import_folder
 
 class Player(Creature):
 	def __init__(self, pos, groups, obstacles, create_attack, destroy_attack, create_magic):
 		super().__init__(groups)
 		self.image = pygame.image.load('../graphics/test/player.png').convert_alpha()
+		self.image = pygame.transform.scale(self.image, (PLAYER_SCALE, PLAYER_SCALE))
 		self.rect = self.image.get_rect(topleft = pos)
 
 		self.hitbox = self.rect.inflate(HITBOX_OFFSET['player_x'], HITBOX_OFFSET['player_y'])
@@ -193,6 +194,7 @@ class Player(Creature):
 			self.frame_index = 0
 
 		self.image = animation[int(self.frame_index)]
+		self.image = pygame.transform.scale(self.image, (PLAYER_SCALE, PLAYER_SCALE))
 		self.rect = self.image.get_rect(center = self.hitbox.center)
 
 		if not self.can_take_damage:

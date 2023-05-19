@@ -1,8 +1,9 @@
 import pygame, sys
-from settings import *
 
+from misc.settings import *
+
+from ui.main_menu import MainMenu
 from level import Level
-from main_menu import MainMenu
 
 class Game:
     def __init__(self):

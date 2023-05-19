@@ -1,26 +1,24 @@
 import pygame
-from settings import *
 
-from tile import Tile
-from player import Player
-from enemy import Enemy
+from misc.settings import *
+from misc.support import *
 
-from weapon import Weapon
+from entities.player import Player
+from entities.enemy import Enemy
 
-from particles import AnimationPlayer
-from magic import MagicPlayer
+from low_classes.tile import Tile
+from low_classes.particles import AnimationPlayer
+
+from low_classes.weapon import Weapon
+from low_classes.magic import MagicPlayer
 
 from ui import UI
-from upgrade import Upgrade
+from ui.upgrade import Upgrade
 
 from random import choice, randint
 
-from support import *
-from debug import debug
-
 class Level:
 	def __init__(self):
-
 		self.game_paused = False
 
 		self.display_surface = pygame.display.get_surface()
