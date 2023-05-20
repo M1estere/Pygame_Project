@@ -13,7 +13,7 @@ from low_classes.weapon import Weapon
 from low_classes.magic import MagicPlayer
 
 from ui.ui import UI
-from ui.upgrade import Upgrade
+from ui.pause import Pause
 
 from random import choice, randint
 
@@ -34,7 +34,7 @@ class Level:
 		self.create_map()
 
 		self.ui = UI()
-		self.upgrade = Upgrade(self.player)
+		self.pause = Pause(self.player)
 
 		self.animation_player = AnimationPlayer()
 		self.magic_player = MagicPlayer(self.animation_player)
@@ -135,7 +135,7 @@ class Level:
 		self.ui.display(self.player)
 
 		if self.game_paused:
-			self.upgrade.display(self.game)
+			self.pause.display(self.game)
 		else:
 			self.visible_sprites.update()
 			self.visible_sprites.enemy_update(self.player)
@@ -155,7 +155,6 @@ class YSortingCameraGroup(pygame.sprite.Group):
 		self.floor_rect = self.floor_surf.get_rect(topleft = (0, 0))
 
 	def custom_drawing(self, player):
-
 		self.offset.x = player.rect.centerx - self.mid_x
 		self.offset.y = player.rect.centery - self.mid_y
 

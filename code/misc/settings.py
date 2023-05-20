@@ -17,25 +17,31 @@ HITBOX_OFFSET = {
 }
 
 BAR_HEIGHT = 20
+
 HEALTH_BAR_WIDTH = 200
 ENERGY_BAR_WIDTH = 140
+
 ITEM_BOX_SIZE = 80
 
 UI_FONT = '../graphics/font/joystix.ttf'
 UI_FONT_SIZE = 18
 
 WATER_COLOUR = '#71ddee'
+
 UI_BG_COLOUR = '#222222'
+
 UI_BORDER_COLOUR = '#111111'
+UI_BORDER_COLOUR_ACTIVE = 'gold'
+
 TEXT_COLOUR = '#EEEEEE'
+TEXT_COLOUR_SELECTED = '#111111'
 
 HEALTH_COLOUR = 'red'
 ENERGY_COLOUR = 'blue'
-UI_BORDER_COLOUR_ACTIVE = 'gold'
 
-TEXT_COLOUR_SELECTED = '#111111'
 BAR_COLOUR = '#EEEEEE'
 BAR_COLOUR_SELECTED = '#111111'
+
 UPGRADE_BG_COLOUR_SELECTED = '#EEEEEE'
 
 weapon_data = {
@@ -57,14 +63,14 @@ monster_data = {
 		'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360,},
 
     'raccoon': 
-		{'health': 300, 'exp':250, 'damage':40, 'attack_type': 'claw',  'attack_sound': '../audio/attack/claw.wav', 
+		{'health': 300, 'exp':250, 'damage':25, 'attack_type': 'claw',  'attack_sound': '../audio/attack/claw.wav', 
 		'speed': 2, 'resistance': 3, 'attack_radius': 120, 'notice_radius': 400,},
 
     'spirit': 
-		{'health': 100, 'exp':110, 'damage':8, 'attack_type': 'thunder', 'attack_sound': '../audio/attack/fireball.wav', 
+		{'health': 100, 'exp':110, 'damage':10, 'attack_type': 'thunder', 'attack_sound': '../audio/attack/fireball.wav', 
 		'speed': 4, 'resistance': 3, 'attack_radius': 60, 'notice_radius': 350,},
 
     'bamboo': 
-		{'health': 70, 'exp':120, 'damage':6, 'attack_type': 'leaf_attack', 'attack_sound': '../audio/attack/slash.wav', 
+		{'health': 70, 'exp':120, 'damage':10, 'attack_type': 'leaf_attack', 'attack_sound': '../audio/attack/slash.wav', 
 		'speed': 3, 'resistance': 3, 'attack_radius': 50, 'notice_radius': 300,},
 }

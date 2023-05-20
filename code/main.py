@@ -20,10 +20,6 @@ class Game:
         pygame.display.set_caption(GAME_TITLE)
         self.clock = pygame.time.Clock()
 
-        main_sound = pygame.mixer.Sound('../audio/main.ogg')
-        main_sound.set_volume(0.5)
-        main_sound.play(loops = -1)
-
     def game_loop(self):
         while self.playing:
             self.check_events()
@@ -59,7 +55,7 @@ class Game:
 
             if self.playing:
                 if event.type == pygame.KEYDOWN:
-                     if event.key == pygame.K_m:
+                     if event.key == pygame.K_ESCAPE:
                         self.toggle()
 
             if not self.playing:
@@ -89,4 +85,5 @@ class Game:
 if __name__ == '__main__':
     game = Game()
     game.curr_menu.display_menu()
+
     game.game_loop()

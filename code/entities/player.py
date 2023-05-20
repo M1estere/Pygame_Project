@@ -8,16 +8,20 @@ from entities.creature import Creature
 class Player(Creature):
 	def __init__(self, pos, groups, obstacles, create_attack, destroy_attack, create_magic):
 		super().__init__(groups)
+
+		self.obstacles = obstacles
+		self.create_attack = create_attack
+		self.destroy_attack = destroy_attack
+		self.create_magic = create_magic
+
 		self.image = pygame.image.load('../graphics/test/player.png').convert_alpha()
 		self.image = pygame.transform.scale(self.image, (PLAYER_SCALE, PLAYER_SCALE))
-		self.rect = self.image.get_rect(topleft = pos)
 
+		self.rect = self.image.get_rect(topleft = pos)
 		self.hitbox = self.rect.inflate(HITBOX_OFFSET['player_x'], HITBOX_OFFSET['player_y'])
 
 		self.import_player_assets()
 		self.status = 'down'
-
-		self.obstacles = obstacles
 
 		self.can_take_damage = True
 		self.hurt_time = None
@@ -27,13 +31,9 @@ class Player(Creature):
 		self.attack_cooldown = 400
 		self.attack_time = None
 
-		self.create_attack = create_attack
-		self.destroy_attack = destroy_attack
-
-		self.create_magic = create_magic
-
 		self.weapon_index = 0
 		self.weapon = list(weapon_data.keys())[self.weapon_index]
+		
 		self.can_switch_weapon = True
 		self.weapon_switch_time = None
 		self.weapon_switch_cooldown = 200

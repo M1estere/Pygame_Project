@@ -2,7 +2,7 @@ import pygame
 
 from misc.settings import *
 
-class Upgrade:
+class Pause:
 	def __init__(self, player):
 		self.display_surface = pygame.display.get_surface()
 		self.player = player
@@ -14,7 +14,7 @@ class Upgrade:
 		self.font = pygame.font.Font(UI_FONT, UI_FONT_SIZE)
 
 		self.height = self.display_surface.get_size()[1] * 0.8
-		self.width = self.display_surface.get_size()[0] // 7 - 20
+		self.width = self.display_surface.get_size()[0] // 6 - 50
 		self.create_items()
 
 		self.selection_index = 0
@@ -77,13 +77,13 @@ class Upgrade:
 
 		for item, index in enumerate(range(self.attribute_nr + 1)):
 			full_width = self.display_surface.get_size()[0]
-			increment = full_width // 6
+			increment = full_width // 7
 
-			left = (item * increment) + (increment - self.width)
+			left = 150 + (item * increment) + (increment - self.width)
 			top = self.display_surface.get_size()[1] * 0.1
 
 			if index == 0:
-				self.pause_screen = PauseScreen(0, 0, self.width + 75, HEIGTH, index, self.font)
+				self.pause_screen = PauseScreen(0, 0, self.width + 150, HEIGTH, index, self.font)
 				self.item_list.append(self.pause_screen)
 			else:
 				item = Item(left, top, self.width, self.height, index, self.font)
@@ -154,12 +154,10 @@ class PauseScreen():
 			self.selected = True
 
 			pygame.draw.rect(surface, UPGRADE_BG_COLOUR_SELECTED, self.rect)
-			pygame.draw.rect(surface, UI_BORDER_COLOUR, self.rect, 4)
 		else:
 			self.selected = False
 
 			pygame.draw.rect(surface, UI_BG_COLOUR, self.rect)
-			pygame.draw.rect(surface, UI_BORDER_COLOUR, self.rect, 4)
 
 		self.draw_content(surface)
 		self.display_name(surface, name, self.index == selection_number)

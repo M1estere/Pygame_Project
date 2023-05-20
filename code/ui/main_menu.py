@@ -8,10 +8,10 @@ class MainMenu(Menu):
         self.state = 'Start'
 
         self.start_x = self.mid_width
-        self.start_y = self.mid_height + 150
+        self.start_y = self.mid_height + 250
 
         self.quit_x = self.mid_width
-        self.quit_y = self.mid_height + 200
+        self.quit_y = self.mid_height + 300
 
         self.cursor_rect.midtop = (self.start_x + self.offset, self.start_y)
 
@@ -24,7 +24,7 @@ class MainMenu(Menu):
             self.check_input()
             self.game.display.fill('#1b0030')
 
-            self.game.draw_text(GAME_TITLE, WIDTH // 2, 200)
+            self.game.draw_text(GAME_TITLE, WIDTH // 2, 100)
             self.game.draw_text('Start Game', self.start_x, self.start_y)
             self.game.draw_text('Quit Game', self.quit_x, self.quit_y)
 

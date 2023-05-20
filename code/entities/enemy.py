@@ -9,6 +9,13 @@ class Enemy(Creature):
     def __init__(self, enemy_name, pos, groups, obstacles, damage_player, trigger_death_particles, add_experience_points):
         super().__init__(groups)
 
+        self.obstacles = obstacles
+        self.damage_player = damage_player
+        self.trigger_death_particles = trigger_death_particles
+        self.add_experience_points = add_experience_points
+
+        self.monster_name = enemy_name
+
         self.sprite_type = 'enemy'
 
         self.import_graphics(enemy_name)
@@ -19,12 +26,6 @@ class Enemy(Creature):
 
         self.hitbox = self.rect.inflate(0, -10)
 
-        self.obstacles = obstacles
-        self.damage_player = damage_player
-        self.trigger_death_particles = trigger_death_particles
-        self.add_experience_points = add_experience_points
-
-        self.monster_name = enemy_name
         monster_info = monster_data[self.monster_name]
 
         self.health = monster_info['health']
