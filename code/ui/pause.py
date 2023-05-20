@@ -36,7 +36,7 @@ class Pause:
 				self.selection_index -= 1
 				self.can_move = False
 				self.selection_time = pygame.time.get_ticks()
-			
+
 			if self.pause_selected:
 				if keys[pygame.K_w] and self.pause_selection_index > 0:
 					self.pause_selection_index -= 1
@@ -46,9 +46,9 @@ class Pause:
 					self.pause_selection_index += 1
 					self.can_move = False
 					self.selection_time = pygame.time.get_ticks()
-					
+
 				self.pause_screen.move(self.pause_selection_index)
-				
+
 			if keys[pygame.K_SPACE]:
 				if self.selection_index != 0:
 					self.can_move = False
@@ -119,7 +119,7 @@ class PauseScreen():
 		self.selected_index = 0
 
 		self.selected = True
-		
+
 	def move(self, index):
 		self.selected_index = index
 

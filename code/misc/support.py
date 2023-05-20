@@ -10,7 +10,7 @@ def import_csv_layout(path):
 
         for row in layout:
             terrain_map.append(list(row))
-        
+
         return terrain_map
 
 def import_folder(path):

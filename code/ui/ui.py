@@ -1,6 +1,6 @@
 import pygame
 
-from misc.settings import * 
+from misc.settings import *
 
 class UI:
 	def __init__(self):
@@ -29,7 +29,7 @@ class UI:
 
 	def show_bar(self, current, max_amount, bg_rect, colour):
 		pygame.draw.rect(self.display_surface, UI_BG_COLOUR, bg_rect)
-		
+
 		ratio = current / max_amount
 		current_width = bg_rect.width * ratio
 		current_rect = bg_rect.copy()
@@ -87,7 +87,7 @@ class UI:
 
 	def weapon_overlay(self, weapon_index, has_switched):
 		bg_rect = self.selection_box(10, 100, has_switched)
-		
+
 		weapon_surf = self.weapon_graphics[weapon_index]
 		weapon_rect = weapon_surf.get_rect(center = bg_rect.center)
 

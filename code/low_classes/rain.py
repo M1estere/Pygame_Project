@@ -7,7 +7,7 @@ from random import randint, uniform
 class Raindrop:
     def __init__(self, window):
         self.x = randint(5, WIDTH)
-        self.y = randint(-HEIGTH, 0)
+        self.y = randint(-HEIGTH, HEIGTH)
 
         self.z = randint(0, 30)
         self.width = randint(0, 2)

@@ -37,7 +37,7 @@ class Enemy(Creature):
 
         self.attack_radius = monster_info['attack_radius']
         self.notice_radius = monster_info['notice_radius']
-        
+
         self.attack_type = monster_info['attack_type']
 
         self.can_attack = True
@@ -125,7 +125,7 @@ class Enemy(Creature):
 
     def cooldown(self):
         current_time = pygame.time.get_ticks()
-        if not self.can_attack:   
+        if not self.can_attack:
             if current_time - self.attack_time >= self.attack_cooldown:
                 self.can_attack = True
 

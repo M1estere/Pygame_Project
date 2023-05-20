@@ -35,9 +35,9 @@ class Creature(pygame.sprite.Sprite):
 				if sprite.hitbox.colliderect(self.hitbox):
 					if self.direction.y > 0: self.hitbox.bottom = sprite.hitbox.top # down
 					if self.direction.y < 0: self.hitbox.top = sprite.hitbox.bottom # up
-		
+
 	def wave_value(self):
 		value = sin(pygame.time.get_ticks())
-		
+
 		if value >= 0: return 255
 		else: return 0

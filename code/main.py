@@ -8,13 +8,14 @@ from level import Level
 class Game:
     def __init__(self):
         pygame.init()
+
         self.running, self.playing = True, False
         self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY = False, False, False, False
 
         self.display = pygame.Surface((WIDTH, HEIGTH))
         self.window = pygame.display.set_mode((WIDTH, HEIGTH))
         self.font_name = 'joystix.ttf'
-        
+
         self.open_main_menu()
 
         pygame.display.set_caption(GAME_TITLE)
@@ -37,7 +38,7 @@ class Game:
             self.reset_keys()
 
     def start_level(self):
-        self.level = Level()
+        self.level = Level(self)
         self.display.fill(WATER_COLOUR)
 
     def open_main_menu(self):
@@ -46,6 +47,8 @@ class Game:
         self.playing = False
         self.main_menu = MainMenu(self)
         self.curr_menu = self.main_menu
+
+        self.curr_menu.display_menu()
 
     def check_events(self):
         for event in pygame.event.get():
@@ -69,7 +72,7 @@ class Game:
                         self.UP_KEY = True
 
     def toggle(self):
-        self.level.toggle_menu(self)
+        self.level.toggle_menu()
 
     def reset_keys(self):
         self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY = False, False, False, False
@@ -84,6 +87,4 @@ class Game:
 
 if __name__ == '__main__':
     game = Game()
-    game.curr_menu.display_menu()
-
     game.game_loop()

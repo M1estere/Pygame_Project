@@ -6,13 +6,15 @@ from misc.support import import_folder
 from entities.creature import Creature
 
 class Player(Creature):
-	def __init__(self, pos, groups, obstacles, create_attack, destroy_attack, create_magic):
+	def __init__(self, pos, groups, obstacles, create_attack, destroy_attack, create_magic, death):
 		super().__init__(groups)
 
 		self.obstacles = obstacles
 		self.create_attack = create_attack
 		self.destroy_attack = destroy_attack
 		self.create_magic = create_magic
+
+		self.death = death
 
 		self.image = pygame.image.load('../graphics/test/player.png').convert_alpha()
 		self.image = pygame.transform.scale(self.image, (PLAYER_SCALE, PLAYER_SCALE))
@@ -33,7 +35,7 @@ class Player(Creature):
 
 		self.weapon_index = 0
 		self.weapon = list(weapon_data.keys())[self.weapon_index]
-		
+
 		self.can_switch_weapon = True
 		self.weapon_switch_time = None
 		self.weapon_switch_cooldown = 200
@@ -74,18 +76,18 @@ class Player(Creature):
 			keys = pygame.key.get_pressed()
 
 			# move
-			if keys[pygame.K_UP] or keys[pygame.K_w]: 
+			if keys[pygame.K_UP] or keys[pygame.K_w]:
 				self.direction.y = -1
 				self.status = 'up'
-			elif keys[pygame.K_DOWN] or keys[pygame.K_s]: 
+			elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
 				self.direction.y = 1
 				self.status = 'down'
 			else: self.direction.y = 0
 
-			if keys[pygame.K_RIGHT] or keys[pygame.K_d]: 
+			if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
 				self.direction.x = 1
 				self.status = 'right'
-			elif keys[pygame.K_LEFT] or keys[pygame.K_a]: 
+			elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
 				self.direction.x = -1
 				self.status = 'left'
 			else: self.direction.x = 0
@@ -101,11 +103,11 @@ class Player(Creature):
 			if keys[pygame.K_LCTRL]:
 				self.attacking = True
 				self.attack_time = pygame.time.get_ticks()
-				
+
 				style = list(magic_data.keys())[self.magic_index]
 				strength = list(magic_data.values())[self.magic_index]['strength'] + self.stats['magic']
 				cost = list(magic_data.values())[self.magic_index]['cost']
-				
+
 				self.create_magic(style, strength, cost)
 
 			if keys[pygame.K_q] and self.can_switch_weapon:
@@ -211,9 +213,11 @@ class Player(Creature):
 
 	def check_health(self):
 		if self.health <= 0:
-			pass
+			print('death')
+			self.death()
 
 	def update(self):
+		self.check_health()
 		self.input()
 		self.cooldown()
 		self.get_status()

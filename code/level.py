@@ -20,7 +20,9 @@ from ui.pause import Pause
 from random import choice, randint
 
 class Level:
-	def __init__(self):
+	def __init__(self, game):
+		self.game = game
+
 		self.game_paused = False
 
 		self.display_surface = pygame.display.get_surface()
@@ -77,14 +79,14 @@ class Level:
 							Tile((x, y), [self.visible_sprites, self.obstacle_sprites], 'object', surf)
 						if style == 'entities':
 							if col == '394':
-								self.player = Player((x, y), [self.visible_sprites], self.obstacle_sprites, self.create_attack, self.destroy_attack, self.create_magic)
+								self.player = Player((x, y), [self.visible_sprites], self.obstacle_sprites, self.create_attack, self.destroy_attack, self.create_magic, self.player_death)
 							else:
 								if col == '390': name = 'bamboo'
 								elif col == '391': name = 'spirit'
 								elif col == '392': name = 'raccoon'
 								else: name = 'squid'
 
-								Enemy(name, (x, y), [self.visible_sprites, self.attackable_sprites], 
+								Enemy(name, (x, y), [self.visible_sprites, self.attackable_sprites],
 									self.obstacle_sprites, self.damage_player, self.trigger_death_particles, self.add_experience_points)
 
 	def create_attack(self):
@@ -134,9 +136,11 @@ class Level:
 
 			self.animation_player.create_particles(attack_type, self.player.rect.center, [self.visible_sprites])
 
-	def toggle_menu(self, game):
-		self.game_paused = not self.game_paused
-		self.game = game
+	def player_death(self):
+		self.game.open_main_menu()
+
+	def toggle_menu(self):
+		self.game_paused = True
 
 	def run(self):
 		self.visible_sprites.custom_drawing(self.player)

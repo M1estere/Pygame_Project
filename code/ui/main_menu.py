@@ -5,6 +5,7 @@ from ui.menu import Menu
 class MainMenu(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
+
         self.state = 'Start'
 
         self.start_x = self.mid_width
