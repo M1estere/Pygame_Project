@@ -12,6 +12,8 @@ from low_classes.particles import AnimationPlayer
 from low_classes.weapon import Weapon
 from low_classes.magic import MagicPlayer
 
+from low_classes.rain import Raindrop
+
 from ui.ui import UI
 from ui.pause import Pause
 
@@ -38,6 +40,12 @@ class Level:
 
 		self.animation_player = AnimationPlayer()
 		self.magic_player = MagicPlayer(self.animation_player)
+
+		self.drops_amount = 700
+		self.rainfall = list()
+
+		for i in range(0, self.drops_amount):
+			self.rainfall.append(Raindrop(self.display_surface))
 
 	def create_map(self):
 		layouts = {
@@ -137,6 +145,10 @@ class Level:
 		if self.game_paused:
 			self.pause.display(self.game)
 		else:
+			for rainfall in self.rainfall:
+				rainfall.display()
+				rainfall.fall()
+
 			self.visible_sprites.update()
 			self.visible_sprites.enemy_update(self.player)
 			self.attack_logic()
