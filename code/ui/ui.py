@@ -94,7 +94,8 @@ class UI:
 		self.display_surface.blit(weapon_surf, weapon_rect)
 
 	def magic_overlay(self, magic_index, has_switched):
-		bg_rect = self.selection_box(10, 180, has_switched)
+		bg_rect = self.selection_box(10, 200, has_switched)
+
 		magic_surf = self.magic_graphics[magic_index]
 		magic_rect = magic_surf.get_rect(center = bg_rect.center)
 
