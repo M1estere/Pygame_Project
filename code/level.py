@@ -140,7 +140,7 @@ class Level:
 		self.game.open_main_menu()
 
 	def toggle_menu(self):
-		self.game_paused = True
+		self.game_paused = not self.game_paused
 
 	def run(self):
 		self.visible_sprites.custom_drawing(self.player)
